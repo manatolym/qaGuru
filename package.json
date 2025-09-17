@@ -1,0 +1,22 @@
+{
+  "name": "qaguru",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000q\u0000a\u0000G\u0000u\u0000r\u0000u\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manatolym/qaGuru.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manatolym/qaGuru/issues"
+  },
+  "homepage": "https://github.com/manatolym/qaGuru#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.5.1"
+  }
+}
