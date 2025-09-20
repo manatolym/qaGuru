@@ -13,6 +13,9 @@ export class MainPage {
         this.articleAboutInput = page.getByRole('textbox', { name: 'What\'s this article about?' })
         this.articleBodyInput = page.getByRole('textbox', { name: 'Write your article (in markdown)' })
         this.articleTagInput = page.getByRole('textbox', { name: 'Enter tags' })
+        this.editLink = page.getByRole('link', { name: 'Edit Article' }).first()
+        this.deleteButton = page.getByRole('button', { name: ' Delete Article' })
+        this.updateArticleButton = page.getByRole('button', { name: ' Update Article' })
     }
     async makeArticle(article) {    
         const { articleTitle, description, text, tag } = article;
@@ -28,8 +31,17 @@ export class MainPage {
         await this.articleTagInput.fill(tag)
         await this.publishArticleButton.click()
     }
-    async expectPageContainsArticle(text) {
+    async expectPageContainsArticle(text) { // тест валится здесь
         const locator = this.page.getByText(text)
         await expect(locator).toBeVisible()
+    }
+        async editArticle() {
+        await this.editLink.click();
+        await this.articleNameInput.click();
+        await this.articleNameInput.fill('New Article Title');
+        const newArticleTitle = this.page.getByText('New Article Title');
+        await this.updateArticleButton.click();
+        //await expect('New Article Title').toBeVisible();
+        await expect(this.page.locator('body')).toContainText('New Article Title');
     }
 }

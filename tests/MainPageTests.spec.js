@@ -13,13 +13,13 @@ test.describe('Тесты главной страницы', () => {
         const article = {
             articleTitle: faker.lorem.words(3), // название статьи из 3 слов
             description: faker.lorem.sentences(2), // описание из 2 предложений
-            text: faker.lorem.sentences(2), // основной текст из 2 абзацев
+            text: faker.lorem.sentences(4), // основной текст из 4 предложений
             tag: faker.lorem.word() // тег из одного слова
         };
 
         const mainPage = new MainPage(page);
 
-        // Начало вставки
+        // Начало регистрации
         const signUpPage = new SignUpPage(page);
         const user = {
             name: faker.person.fullName(),
@@ -28,9 +28,36 @@ test.describe('Тесты главной страницы', () => {
         };
         await signUpPage.register(user);
         await signUpPage.expectPageContainsText(user.name);
-        // Конец вставки
+        // Конец регистрации
 
-        await mainPage.makeArticle(article);
-        await mainPage.expectPageContainsArticle(article.articleTitle);
+        await mainPage.makeArticle(article); // создание статьи
+        await mainPage.expectPageContainsArticle(article.articleTitle); // провкерка существования статьи на странице
     });
+
+ test('Редактирование статьи', async ({ page }) => {
+        const article = {
+            articleTitle: faker.lorem.words(3), // название статьи из 3 слов
+            description: faker.lorem.sentences(2), // описание из 2 предложений
+            text: faker.lorem.sentences(4), // основной текст из 4 предложений
+            tag: faker.lorem.word() // тег из одного слова
+        };
+
+        const mainPage = new MainPage(page);
+
+        // Начало регистрации
+        const signUpPage = new SignUpPage(page);
+        const user = {
+            name: faker.person.fullName(),
+            email: faker.internet.email(),
+            password: faker.internet.password()
+        };
+        await signUpPage.register(user);
+        await signUpPage.expectPageContainsText(user.name);
+        // Конец регистрации
+
+        await mainPage.makeArticle(article); // создание статьи
+        await mainPage.expectPageContainsArticle(article.articleTitle); // провкерка существования статьи на странице
+        await mainPage.editArticle()
+    });
+
 });
