@@ -1,28 +1,36 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
-import { SignUpPage } from '../src/index.js';
+import { SignUpPage, MainPage } from '../src/index.js';
 
+const URL = 'https://realworld.qa.guru';
 
-
-const URL = 'https://realworld.qa.guru'
-
-test.describe('Тесты главной страницы', ()=> {
+test.describe('Тесты главной страницы', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto(URL)
-    })
+        await page.goto(URL);
+    });
 
-    test('Создание пользователя', async ({ page }) => {
+    test('Создание статьи', async ({ page }) => {
+        const article = {
+            articleTitle: faker.lorem.words(3), // название статьи из 3 слов
+            description: faker.lorem.sentences(2), // описание из 2 предложений
+            text: faker.lorem.sentences(2), // основной текст из 2 абзацев
+            tag: faker.lorem.word() // тег из одного слова
+        };
+
+        const mainPage = new MainPage(page);
+
+        // Начало вставки
+        const signUpPage = new SignUpPage(page);
         const user = {
             name: faker.person.fullName(),
             email: faker.internet.email(),
             password: faker.internet.password()
-        }
-        const signUpPage = new SignUpPage(page)
-        await signUpPage.register(user)
+        };
+        await signUpPage.register(user);
         await signUpPage.expectPageContainsText(user.name);
-        })
-    })
+        // Конец вставки
 
-
-
-    
+        await mainPage.makeArticle(article);
+        await mainPage.expectPageContainsArticle(article.articleTitle);
+    });
+});
