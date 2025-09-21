@@ -16,6 +16,7 @@ export class MainPage {
         this.editLink = page.getByRole('link', { name: 'Edit Article' }).first()
         this.deleteButton = page.getByRole('button', { name: ' Delete Article' })
         this.updateArticleButton = page.getByRole('button', { name: ' Update Article' })
+        this.logInLink = page.getByRole('link', { name: 'Login' })
     }
     async makeArticle(article) {    
         const { articleTitle, description, text, tag } = article;
@@ -31,7 +32,7 @@ export class MainPage {
         await this.articleTagInput.fill(tag)
         await this.publishArticleButton.click()
     }
-    async expectPageContainsArticle(text) { // тест валится здесь
+    async expectPageContainsArticle(text) { 
         const locator = this.page.getByText(text)
         await expect(locator).toBeVisible()
     }
@@ -39,9 +40,28 @@ export class MainPage {
         await this.editLink.click();
         await this.articleNameInput.click();
         await this.articleNameInput.fill('New Article Title');
-        const newArticleTitle = this.page.getByText('New Article Title');
+        //const newArticleTitle = this.page.getByText('New Article Title');
         await this.updateArticleButton.click();
         //await expect('New Article Title').toBeVisible();
         await expect(this.page.locator('body')).toContainText('New Article Title');
     }
+
+    async sourceCheck() {
+        await this.sourceLink.first().click()
+        await expect(this.page).toHaveURL('https://github.com/TonyMckes/conduit-realworld-example-app');
+    }
+
+    async logOut() {
+        await this.page.click('.nav-link.dropdown-toggle.cursor-pointer')
+        await this.page.click('.ion-log-out');
+        await expect(this.logInLink).toBeVisible()
+    }
+    async globalFeedCheck() {
+        await this.globalFeedButton.click()
+        const articlePreviews = this.page.locator('div.article-preview');
+        await this.page.waitForSelector('div.article-preview');
+        await expect(articlePreviews).toBeVisible()
+    }
+
+
 }

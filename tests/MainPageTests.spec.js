@@ -60,4 +60,37 @@ test.describe('Тесты главной страницы', () => {
         await mainPage.editArticle()
     });
 
+    test('Открытие проекта на GIT', async ({ page }) => { 
+        const mainPage = new MainPage(page);
+        await mainPage.sourceCheck()
+    })
+
+    test('Выход из портала', async ({ page }) => { 
+        const user = {
+            name: faker.person.fullName(),
+            email: faker.internet.email(),
+            password: faker.internet.password()
+        }
+        const signUpPage = new SignUpPage(page)
+            await signUpPage.register(user)
+            await signUpPage.expectPageContainsText(user.name)
+        const mainPage = new MainPage(page);
+            await mainPage.logOut()
+    })
+
+    test('Проверка ленты статей', async ({ page }) => { 
+        const user = {
+            name: faker.person.fullName(),
+            email: faker.internet.email(),
+            password: faker.internet.password()
+        }
+        const signUpPage = new SignUpPage(page)
+            await signUpPage.register(user)
+            await signUpPage.expectPageContainsText(user.name)
+        const mainPage = new MainPage(page);
+        await mainPage.globalFeedCheck()
+    })
+    
+
+
 });
