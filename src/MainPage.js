@@ -40,9 +40,7 @@ export class MainPage {
         await this.editLink.click();
         await this.articleNameInput.click();
         await this.articleNameInput.fill('New Article Title');
-        //const newArticleTitle = this.page.getByText('New Article Title');
         await this.updateArticleButton.click();
-        //await expect('New Article Title').toBeVisible();
         await expect(this.page.locator('body')).toContainText('New Article Title');
     }
 
@@ -51,16 +49,16 @@ export class MainPage {
         await expect(this.page).toHaveURL('https://github.com/TonyMckes/conduit-realworld-example-app');
     }
 
-    async logOut() {
-        await this.page.click('.nav-link.dropdown-toggle.cursor-pointer')
-        await this.page.click('.ion-log-out');
-        await expect(this.logInLink).toBeVisible()
-    }
     async globalFeedCheck() {
         await this.globalFeedButton.click()
         const articlePreviews = this.page.locator('div.article-preview');
         await this.page.waitForSelector('div.article-preview');
         await expect(articlePreviews).toBeVisible()
+    }
+    async logOut() {
+        await this.page.click('.nav-link.dropdown-toggle.cursor-pointer')
+        await this.page.click('.ion-log-out');
+        await expect(this.logInLink).toBeVisible()
     }
 
 

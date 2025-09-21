@@ -37,4 +37,9 @@ export class SignUpPage {
         const locator = this.page.getByText(text)
         await expect(locator).toBeVisible()
     }
+    async logOut() {
+        await this.page.click('.nav-link.dropdown-toggle.cursor-pointer')
+        await this.page.click('.ion-log-out');
+        await expect(this.logInLink).toBeVisible()
+    }
 }
