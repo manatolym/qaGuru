@@ -12,6 +12,7 @@ export class SignUpPage {
         this.logInButton = page.getByRole('button', { name: 'Login' })
     }
 
+    // Регистрация нового пользователя с данными из объекта user
     async register(user) {    
         const { name, email, password } = user;
         await this.signUpLink.waitFor({ state: 'visible' })
@@ -24,6 +25,9 @@ export class SignUpPage {
         await this.passwordInput.fill(password)
         await this.signUpButton.click()
     }
+    // TODO: проверить успешную регистрацию
+
+    // Вход пользователя в систему с данными из объекта user
     async loggingIn(user) {
         await this.logInLink.waitFor({ state: 'visible' })
         await this.logInLink.click()
@@ -33,10 +37,15 @@ export class SignUpPage {
         await this.passwordInput.fill(user.password)
         await this.logInButton.click()
     }
+    // TODO: проверить успешный вход (например, наличие ссылки на профиль)
+
+    // Проверка, что на странице есть определенный текст
     async expectPageContainsText(text) {
         const locator = this.page.getByText(text)
         await expect(locator).toBeVisible()
     }
+
+    // Выход из аккаунта
     async logOut() {
         await this.page.click('.nav-link.dropdown-toggle.cursor-pointer')
         await this.page.click('.ion-log-out');
