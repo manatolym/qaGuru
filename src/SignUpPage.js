@@ -7,13 +7,16 @@ export class SignUpPage {
         this.emailInput = page.getByRole('textbox', { name: 'Email' })
         this.passwordInput = page.getByRole('textbox', { name: 'Password' })
         this.signUpButton = page.getByRole('button', { name: 'Sign up' })
-        this.signUpNavLink = page.getByRole('link', { name: 'Sign up' })
+        this.signUpLink = page.getByRole('link', { name: 'Sign up' })
+        this.logInLink = page.getByRole('link', { name: 'Login' })
+        this.logInButton = page.getByRole('button', { name: 'Login' })
     }
 
+    // Регистрация нового пользователя с данными из объекта user
     async register(user) {    
         const { name, email, password } = user;
-        await this.signUpNavLink.waitFor({ state: 'visible' })
-        await this.signUpNavLink.click()
+        await this.signUpLink.waitFor({ state: 'visible' })
+        await this.signUpLink.click()
         await this.nameInput.click()
         await this.nameInput.fill(name)
         await this.emailInput.click()
@@ -22,8 +25,30 @@ export class SignUpPage {
         await this.passwordInput.fill(password)
         await this.signUpButton.click()
     }
+    // TODO: проверить успешную регистрацию
+
+    // Вход пользователя в систему с данными из объекта user
+    async loggingIn(user) {
+        await this.logInLink.waitFor({ state: 'visible' })
+        await this.logInLink.click()
+        await this.emailInput.click()
+        await this.emailInput.fill(user.email)
+        await this.passwordInput.click()
+        await this.passwordInput.fill(user.password)
+        await this.logInButton.click()
+    }
+    // TODO: проверить успешный вход (например, наличие ссылки на профиль)
+
+    // Проверка, что на странице есть определенный текст
     async expectPageContainsText(text) {
         const locator = this.page.getByText(text)
         await expect(locator).toBeVisible()
+    }
+
+    // Выход из аккаунта
+    async logOut() {
+        await this.page.click('.nav-link.dropdown-toggle.cursor-pointer')
+        await this.page.click('.ion-log-out');
+        await expect(this.logInLink).toBeVisible()
     }
 }
