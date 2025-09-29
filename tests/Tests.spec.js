@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { SignUpPage, MainPage, LikePage } from '../src/index.js';
 import { createUser, createArticle } from '../src/fixtures.js';
-//commit for pull request
+//commit for pull request2
 
 const URL = 'https://realworld.qa.guru';
 
