@@ -1,0 +1,187 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - navigation [ref=e4]:
+      - generic:
+        - link "conduit" [ref=e5] [cursor=pointer]:
+          - /url: "#/"
+        - list [ref=e6]:
+          - listitem [ref=e7]:
+            - link " Source code" [ref=e8] [cursor=pointer]:
+              - /url: https://github.com/TonyMckes/conduit-realworld-example-app
+              - generic [ref=e9] [cursor=pointer]: 
+              - text: Source code
+        - list [ref=e10]:
+          - listitem [ref=e11]:
+            - link " Home" [ref=e12] [cursor=pointer]:
+              - /url: "#/"
+              - generic [ref=e13] [cursor=pointer]: 
+              - text: Home
+          - listitem [ref=e14]:
+            - link " New Article" [ref=e15] [cursor=pointer]:
+              - /url: "#/editor"
+              - generic [ref=e16] [cursor=pointer]: 
+              - text: New Article
+          - listitem [ref=e17]:
+            - generic [ref=e18] [cursor=pointer]:
+              - img "Ronald McLaughlin Jr." [ref=e19] [cursor=pointer]
+              - text: Ronald McLaughlin Jr.
+            - text:   
+  - main [ref=e20]:
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - list [ref=e26]:
+          - listitem [ref=e27]:
+            - button "Your Feed" [ref=e28] [cursor=pointer]
+          - listitem [ref=e29]:
+            - button "Global Feed" [ref=e30]
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - link "Violet Klocko" [ref=e33] [cursor=pointer]:
+              - /url: "#/profile/Violet Klocko"
+              - img "Violet Klocko" [ref=e34] [cursor=pointer]
+            - generic [ref=e35]:
+              - link "Violet Klocko" [ref=e36] [cursor=pointer]:
+                - /url: "#/profile/Violet Klocko"
+              - generic [ref=e37]: September 25, 2025
+            - button " ( 4 )" [ref=e38] [cursor=pointer]:
+              - generic [ref=e39] [cursor=pointer]: 
+              - generic [ref=e40] [cursor=pointer]: ( 4 )
+          - link "New Article Title Statim cimentarius tumultus atrocitas cubitum thymbra. Decor inventore combibo tamdiu causa deprecator. Read more... testimonium" [ref=e41] [cursor=pointer]:
+            - /url: "#/article/new-article-title"
+            - heading "New Article Title" [level=1] [ref=e42] [cursor=pointer]
+            - paragraph [ref=e43] [cursor=pointer]: Statim cimentarius tumultus atrocitas cubitum thymbra. Decor inventore combibo tamdiu causa deprecator.
+            - generic [ref=e44] [cursor=pointer]: Read more...
+            - list [ref=e45] [cursor=pointer]:
+              - listitem [ref=e46] [cursor=pointer]: testimonium
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - link "Dennis Schoen" [ref=e49] [cursor=pointer]:
+              - /url: "#/profile/Dennis Schoen"
+              - img "Dennis Schoen" [ref=e50] [cursor=pointer]
+            - generic [ref=e51]:
+              - link "Dennis Schoen" [ref=e52] [cursor=pointer]:
+                - /url: "#/profile/Dennis Schoen"
+              - generic [ref=e53]: September 29, 2025
+            - button " ( 0 )" [ref=e54] [cursor=pointer]:
+              - generic [ref=e55] [cursor=pointer]: 
+              - generic [ref=e56] [cursor=pointer]: ( 0 )
+          - link "allatus peccatus viscus Caveo architecto coadunatio. Adicio aggero defluo dapifer. Read more... molestiae" [ref=e57] [cursor=pointer]:
+            - /url: "#/article/allatus-peccatus-viscus"
+            - heading "allatus peccatus viscus" [level=1] [ref=e58] [cursor=pointer]
+            - paragraph [ref=e59] [cursor=pointer]: Caveo architecto coadunatio. Adicio aggero defluo dapifer.
+            - generic [ref=e60] [cursor=pointer]: Read more...
+            - list [ref=e61] [cursor=pointer]:
+              - listitem [ref=e62] [cursor=pointer]: molestiae
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - link "Nikita" [ref=e65] [cursor=pointer]:
+              - /url: "#/profile/Nikita"
+              - img "Nikita" [ref=e66] [cursor=pointer]
+            - generic [ref=e67]:
+              - link "Nikita" [ref=e68] [cursor=pointer]:
+                - /url: "#/profile/Nikita"
+              - generic [ref=e69]: September 28, 2025
+            - button " ( 0 )" [ref=e70] [cursor=pointer]:
+              - generic [ref=e71] [cursor=pointer]: 
+              - generic [ref=e72] [cursor=pointer]: ( 0 )
+          - link "Название строки фр7 Описание статьи фр7 Read more... статьяфр7" [ref=e73] [cursor=pointer]:
+            - /url: "#/article/------------------7"
+            - heading "Название строки фр7" [level=1] [ref=e74] [cursor=pointer]
+            - paragraph [ref=e75] [cursor=pointer]: Описание статьи фр7
+            - generic [ref=e76] [cursor=pointer]: Read more...
+            - list [ref=e77] [cursor=pointer]:
+              - listitem [ref=e78] [cursor=pointer]: статьяфр7
+        - navigation "Pagination" [ref=e79]:
+          - listitem [ref=e80]:
+            - button "Previous page" [disabled]:
+              - generic: 
+          - listitem [ref=e81]:
+            - button "Page 1 is your current page" [ref=e82]: "1"
+          - listitem [ref=e83]:
+            - button "Page 2" [ref=e84] [cursor=pointer]: "2"
+          - listitem [ref=e85]:
+            - button "Page 3" [ref=e86] [cursor=pointer]: "3"
+          - listitem [ref=e87]:
+            - button "..." [ref=e88] [cursor=pointer]
+          - listitem [ref=e89]:
+            - button "Page 6455" [ref=e90] [cursor=pointer]: "6455"
+          - listitem [ref=e91]:
+            - button "Page 6456" [ref=e92] [cursor=pointer]: "6456"
+          - listitem [ref=e93]:
+            - button "Page 6457" [ref=e94] [cursor=pointer]: "6457"
+          - listitem [ref=e95]:
+            - button "Next page" [ref=e96] [cursor=pointer]:
+              - generic [ref=e97] [cursor=pointer]: 
+      - complementary [ref=e98]:
+        - generic [ref=e99]:
+          - heading "Popular Tags" [level=6] [ref=e100]
+          - generic [ref=e101]:
+            - button "реклама" [ref=e102] [cursor=pointer]
+            - button "autus" [ref=e103] [cursor=pointer]
+            - button "iste" [ref=e104] [cursor=pointer]
+            - button "tripudio" [ref=e105] [cursor=pointer]
+            - button "amplus" [ref=e106] [cursor=pointer]
+            - button "inflammatio" [ref=e107] [cursor=pointer]
+            - button "ver" [ref=e108] [cursor=pointer]
+            - button "umbra" [ref=e109] [cursor=pointer]
+            - button "apto" [ref=e110] [cursor=pointer]
+            - button "bestia" [ref=e111] [cursor=pointer]
+            - button "placeat" [ref=e112] [cursor=pointer]
+            - button "vinitor" [ref=e113] [cursor=pointer]
+            - button "asporto" [ref=e114] [cursor=pointer]
+            - button "aestivus" [ref=e115] [cursor=pointer]
+            - button "armarium" [ref=e116] [cursor=pointer]
+            - button "adfectus" [ref=e117] [cursor=pointer]
+            - button "conduco" [ref=e118] [cursor=pointer]
+            - button "acsi" [ref=e119] [cursor=pointer]
+            - button "timor" [ref=e120] [cursor=pointer]
+            - button "bene" [ref=e121] [cursor=pointer]
+            - button "sortitus" [ref=e122] [cursor=pointer]
+            - button "sumo" [ref=e123] [cursor=pointer]
+            - button "ustilo" [ref=e124] [cursor=pointer]
+            - button "sperno" [ref=e125] [cursor=pointer]
+            - button "trepide" [ref=e126] [cursor=pointer]
+            - button "perferendis" [ref=e127] [cursor=pointer]
+            - button "clamo" [ref=e128] [cursor=pointer]
+            - button "videlicet" [ref=e129] [cursor=pointer]
+            - button "cognatus" [ref=e130] [cursor=pointer]
+            - button "vulgus" [ref=e131] [cursor=pointer]
+            - button "voluptate" [ref=e132] [cursor=pointer]
+            - button "consuasor" [ref=e133] [cursor=pointer]
+            - button "denego" [ref=e134] [cursor=pointer]
+            - button "conscendo" [ref=e135] [cursor=pointer]
+            - button "tergum" [ref=e136] [cursor=pointer]
+            - button "volutabrum" [ref=e137] [cursor=pointer]
+            - button "verto" [ref=e138] [cursor=pointer]
+            - button "cras" [ref=e139] [cursor=pointer]
+            - button "capto" [ref=e140] [cursor=pointer]
+            - button "peccatus" [ref=e141] [cursor=pointer]
+            - button "subito" [ref=e142] [cursor=pointer]
+            - button "confido" [ref=e143] [cursor=pointer]
+            - button "subnecto" [ref=e144] [cursor=pointer]
+            - button "creber" [ref=e145] [cursor=pointer]
+            - button "abduco" [ref=e146] [cursor=pointer]
+            - button "suggero" [ref=e147] [cursor=pointer]
+            - button "vallum" [ref=e148] [cursor=pointer]
+            - button "terra" [ref=e149] [cursor=pointer]
+            - button "alienus" [ref=e150] [cursor=pointer]
+            - button "vetus" [ref=e151] [cursor=pointer]
+  - contentinfo [ref=e152]:
+    - generic [ref=e153]:
+      - link "conduit" [ref=e154] [cursor=pointer]:
+        - /url: "#/"
+      - generic [ref=e155]:
+        - text: An interactive learning project from
+        - link "Thinkster" [ref=e156] [cursor=pointer]:
+          - /url: https://thinkster.io
+        - text: . Code & design licensed under MIT.
+      - list [ref=e157]:
+        - listitem [ref=e158]:
+          - link " Source code" [ref=e159] [cursor=pointer]:
+            - /url: https://github.com/TonyMckes/conduit-realworld-example-app
+            - generic [ref=e160] [cursor=pointer]: 
+            - text: Source code
+```

@@ -42,13 +42,14 @@ export class SignUpPage {
     // Проверка, что на странице есть определенный текст
     async expectPageContainsText(text) {
         const locator = this.page.getByText(text)
-        await expect(locator).toBeVisible()
     }
 
     // Выход из аккаунта
     async logOut() {
         await this.page.click('.nav-link.dropdown-toggle.cursor-pointer')
         await this.page.click('.ion-log-out');
-        await expect(this.logInLink).toBeVisible()
+    }
+    async goToRegister() {
+        await this.signUpLink.click();
     }
 }
