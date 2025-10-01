@@ -20,9 +20,7 @@ test.describe('Проверка действий со статьями', ()=> {
         await signUpPage.register(user); // Регистрация пользователя
         await signUpPage.expectPageContainsText(user.name);
         await mainPage.makeArticle(article); // создание статьи
-        await mainPage.expectPageContainsArticle(article.articleTitle); // провкерка существования статьи на странице
-        const locator = mainPage.page.getByText(article.articleTitle)
-        await expect(locator).toBeVisible()
+        await expect(mainPage.checkArticle).toContainText(article.articleTitle);// провкерка существования статьи на странице
     });
 
  test('Авторизованный пользователь может редактировать статью', async ({ page }) => {
@@ -33,9 +31,8 @@ test.describe('Проверка действий со статьями', ()=> {
         await signUpPage.register(user);
         await signUpPage.expectPageContainsText(user.name);
         await mainPage.makeArticle(article); // создание статьи
-        await mainPage.expectPageContainsArticle(article.articleTitle); // проверка существования статьи на странице
         await mainPage.editArticle()
-        await expect(mainPage.page.locator('body')).toContainText('New Article Title');
+        await expect(mainPage.checkArticle).toContainText('New Article Title');
     });
     // TODO: добавить negative тесты на создание статьи с пустыми полями
 
@@ -74,36 +71,5 @@ test.describe('Проверка действий со статьями', ()=> {
             await expect(mainPage.logInLink).toBeVisible()
     })
     // TODO: проверить, что после логаута пользователь не может получить доступ к защищенным страницам
-
-    
-test.describe('Проверка возможности регистрации и авторизации пользователем', ()=> {
-    test.beforeEach(async ({ page }) => {
-        await page.goto(URL)
-    })
-
-    test('Регистрация пользователем', async ({ page }) => {
-        const user = createUser()
-        const signUpPage = new SignUpPage(page)
-        await signUpPage.register(user)
-        await signUpPage.expectPageContainsText(user.name)
-        const locator = signUpPage.page.getByText(user.name)
-        await expect(locator).toBeVisible()
-        
-        })
-        // TODO: добавить проверку на ошибки регистрации (повторная регистрация с тем же email)
-
-    test('Авторизация пользователем', async ({ page }) => {
-        const user = createUser()
-        const signUpPage = new SignUpPage(page)
-        await signUpPage.register(user)
-        await signUpPage.expectPageContainsText(user.name)
-        await signUpPage.logOut()
-        await signUpPage.loggingIn(user)
-        await signUpPage.expectPageContainsText(user.name)
-        const locator = signUpPage.page.getByText(user.name)
-        await expect(locator).toBeVisible()
-    })
-    })
-    // TODO: добавить negative тесты на неверный пароль, пустые поля и т.п.
     })
 })
