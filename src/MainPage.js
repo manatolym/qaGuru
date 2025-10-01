@@ -17,7 +17,8 @@ export class MainPage {
         this.deleteButton = page.getByRole('button', { name: ' Delete Article' })
         this.updateArticleButton = page.getByRole('button', { name: ' Update Article' })
         this.logInLink = page.getByRole('link', { name: 'Login' })
-        //const locator = this.page.getByText(article.articleTitle)
+        this.checkArticle = page.getByRole('main');
+
     }
     
     // Метод создания статьи с параметрами из объекта article
@@ -36,12 +37,6 @@ export class MainPage {
         await this.publishArticleButton.click()
     }
     // TODO: добавить проверку успешной публикации статьи
-
-    // Проверка, что на странице есть текст статьи
-    async expectPageContainsArticle(text) { 
-        //await expect(locator).toBeVisible()
-    }
-    // TODO: добавить таймаут на случай задержек загрузки
 
     // Редактирование статьи с фиксированным новым заголовком
         async editArticle() {
