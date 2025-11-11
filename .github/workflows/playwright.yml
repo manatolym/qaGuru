@@ -24,9 +24,9 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        id: playwright  
+        id: playwright
         run: npx playwright test
-        continue-on-error: true  
+        continue-on-error: true
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -36,8 +36,8 @@ jobs:
           retention-days: 30
 
       - name: Send Telegram notification
-        uses: appleboy/telegram-action@v1
-        if: always()  
+        uses: appleboy/telegram-action@v1.0.1
+        if: always()
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -52,3 +52,17 @@ jobs:
 
             🔗 [Посмотреть логи](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
           format: markdown
+
+      - name: Send results to Allure TestOps
+        uses: qameta/allure-action@v1
+        if: success() || failure()
+        env:
+          ALLURE_TESTOPS_API_KEY: ${{ secrets.ALLURE_TESTOPS_API_KEY }}
+          ALLURE_TESTOPS_PROJECT_ID: ${{ secrets.ALLURE_TESTOPS_PROJECT_ID }}
+          ALLURE_TESTOPS_URL: ${{ secrets.ALLURE_TESTOPS_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          folder: allure-results
+          launch: '${{ secrets.ALLURE_TESTOPS_LAUNCH_NAME }} | ${{ github.event_name }} | ${{ github.run_id }}'
+          build: ${{ github.run_id }}
+          environment: CI
