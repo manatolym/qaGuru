@@ -54,17 +54,18 @@ jobs:
           format: markdown
 
       - name: Send results to Allure TestOps
-        uses: allure-framework/allure-github-action@v2.1.0
-        if: success() || failure()
-        with:
-          action: send
-          url: ${{ secrets.ALLURE_TESTOPS_URL }}
-          project_id: ${{ secrets.ALLURE_TESTOPS_PROJECT_ID }}
-          api_key: ${{ secrets.ALLURE_TESTOPS_API_KEY }}
-          launch_name: ${{ secrets.ALLURE_TESTOPS_LAUNCH_NAME }}
-          launch_tags: CI,Playwright
-          build_order: ${{ github.run_number }}
-          files: allure-results
-          insecure: true
+        run: |
+          docker run --rm \
+          -e ALLURE_URL="${{ secrets.ALLURE_TESTOPS_URL }}" \
+          -e ALLURE_PROJECT_ID="${{ secrets.ALLURE_TESTOPS_PROJECT_ID }}" \
+          -e ALLURE_API_KEY="${{ secrets.ALLURE_TESTOPS_API_KEY }}" \
+          -v $(pwd)/allure-results:/app/allure-results \
+          qameta/allure-github-action:2.1.0 \
+          send \
+          --launch-name "CI Run ${{ github.run_number }}" \
+          --build-order ${{ github.run_number }} \
+          --insecure
+          if: success() || failure()
+
 
 
