@@ -36,7 +36,7 @@ jobs:
           retention-days: 30
 
       - name: Send Telegram notification
-        uses: appleboy/telegram-action@v2
+        uses: appleboy/telegram-action@v2.3.0
         if: always()  
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
