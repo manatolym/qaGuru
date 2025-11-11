@@ -55,6 +55,7 @@ jobs:
 
             🔗 [Посмотреть логи](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
           format: markdown
+
       - name: Check allure-results
         run: |
           if [ -d "allure-results" ]; then
@@ -70,6 +71,7 @@ jobs:
         run: docker run --rm hello-world
 
       - name: Send results to Allure TestOps
+        if: success() || failure()
         run: |
           docker run --rm \
           -e ALLURE_URL="${{ secrets.ALLURE_TESTOPS_URL }}" \
@@ -81,7 +83,6 @@ jobs:
           --launch-name "CI Run ${{ github.run_number }}" \
           --build-order ${{ github.run_number }} \
           --insecure
-          if: success() || failure()
 
 
 
