@@ -55,6 +55,16 @@ jobs:
 
             🔗 [Посмотреть логи](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
           format: markdown
+      - name: Check allure-results
+        run: |
+          if [ -d "allure-results" ]; then
+          echo "✅ Папка allure-results найдена"
+          ls -la allure-results/
+          else
+          echo "❌ Папка allure-results не найдена!"
+          ls -la
+          exit 1
+          fi
 
       - name: Test Docker
         run: docker run --rm hello-world
