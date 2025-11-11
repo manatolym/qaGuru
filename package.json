@@ -4,7 +4,10 @@
   "description": "��#\u0000 \u0000q\u0000a\u0000G\u0000u\u0000r\u0000u\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
-    "allureFile": "npx allure awesome ./allure-results --single-file"
+  "allureFile": "npx allure awesome ./allure-results --single-file",
+  "test": "npx playwright test",
+  "test:allure": "npx playwright test && allure serve allure-results",
+  "test:api": "playwright test --grep @API"
   },
   "repository": {
     "type": "git",
@@ -24,6 +27,7 @@
     "allure-playwright": "^3.4.1"
   },
   "dependencies": {
-    "allure": "^0.0.0"
+    "allure": "^0.0.0",
+    "axios": "^1.13.2"
   }
 }
