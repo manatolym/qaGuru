@@ -25,15 +25,18 @@ jobs:
 
       - name: Run Playwright tests
         id: playwright
-        run: npx playwright test
         continue-on-error: true
+        run: |
+          npx playwright test
+          npx playwright show-report --no-open
 
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+            name: playwright-report
+            path: playwright-report/
+            retention-days: 30
 
       - name: Send Telegram notification
         uses: appleboy/telegram-action@v1.0.1
