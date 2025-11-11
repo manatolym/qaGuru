@@ -54,7 +54,7 @@ jobs:
           format: markdown
 
       - name: Send results to Allure TestOps
-        uses: allure-framework/allure-github-action@v2
+        uses: allure-framework/allure-github-action@v2.1.0
         if: success() || failure()
         with:
           action: send
@@ -62,8 +62,9 @@ jobs:
           project_id: ${{ secrets.ALLURE_TESTOPS_PROJECT_ID }}
           api_key: ${{ secrets.ALLURE_TESTOPS_API_KEY }}
           launch_name: ${{ secrets.ALLURE_TESTOPS_LAUNCH_NAME }}
-          launch_tags: "CI,Playwright"
+          launch_tags: CI,Playwright
           build_order: ${{ github.run_number }}
           files: allure-results
           insecure: true
+
 
