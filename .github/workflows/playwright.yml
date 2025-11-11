@@ -56,6 +56,9 @@ jobs:
             🔗 [Посмотреть логи](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
           format: markdown
 
+      - name: Test Docker
+        run: docker run --rm hello-world
+
       - name: Send results to Allure TestOps
         run: |
           docker run --rm \
