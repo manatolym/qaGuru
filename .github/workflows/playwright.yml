@@ -54,11 +54,11 @@ jobs:
       - name: Установить jq
         run: sudo apt-get install -y jq
 
-      - name: Установить allurectl
+      - name: Install allurectl
         run: |
-          wget https://github.com/allure-framework/allurectl/releases/latest/download/allurectl-linux-amd64.tar.gz
-          tar -xzf allurectl-linux-amd64.tar.gz
-          sudo mv allurectl /usr/local/bin/
+          curl -sSL https://git.io/allurectl | bash -s -- -b /usr/local/bin
+          allurectl --version
+
 
       - name: Upload results to Allure TestOps
         if: success() || failure()
