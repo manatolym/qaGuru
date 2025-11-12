@@ -1,42 +1,105 @@
-name: Playwright Tests + Telegram
-
+# Называем workflow
+name: pw tests
+# Когда мы запускаем автотесты
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-
+ # ручной запуск   
+  workflow_dispatch:
+# jobs
 jobs:
-  test:
-    timeout-minutes: 60
+  e2eTests:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
+      # делаем чекаут
       - uses: actions/checkout@v4
-
+      # устанавливаем node.js
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright Browsers
+      # устанавливаем пакеты node
+      - name: Установить пакеты
+        run: npm i
+      # устанавливаем PW
+      - name: Установить PW
         run: npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        id: playwright
-        continue-on-error: true
-        run: |
-          npx playwright test
-          npx playwright show-report --no-open
-
-      - name: Upload HTML Report
-        uses: actions/upload-artifact@v4
+      - name: Запустить PW
+        run: npm run test
+      # Сохраняем отчет PW  
+      - uses: actions/upload-artifact@v4
         if: always()
+        continue-on-error: true
         with:
-            name: playwright-report
-            path: playwright-report/
-            retention-days: 30
+          name: test-results
+          path: test-results
+          retention-days: 20
+      # Сохраняем результаты Allure 
+      - uses: actions/upload-artifact@v4
+        if: always()
+        continue-on-error: true
+        with:
+          name: allure-results
+          path: allure-results
+          retention-days: 20
+      # Забираем результаты предыдущего запуска  
+      - uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+      # Формируем из allure-results отчёт allure-report
+      - uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 20
+      # Деплоим отчёт
+      - name: deploy report
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
+      - name: Install allurectl
+        run: |
+          curl -o allurectl -L "https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_linux_amd64"
+          chmod +x allurectl
+          sudo mv allurectl /usr/local/bin/
+
+      - name: Upload results to Allure TestOps
+        if: always()
+        run: |
+          allurectl upload allure-results \
+            --endpoint https://allure.autotests.cloud \
+            --project-id 4983 \
+            --token ${{ secrets.ALLURE_TOKEN }} \
+            --launch-name "GitHub Run #${{ github.run_number }}"
+
+      - name: Parse Allure summary
+        id: parse_summary
+        if: always()
+        run: |
+          SUMMARY_FILE="allure-report/widgets/summary.json"
+          if [ -f "$SUMMARY_FILE" ]; then
+            PASSED=$(jq '.statistic.passed' $SUMMARY_FILE)
+            FAILED=$(jq '.statistic.failed' $SUMMARY_FILE)
+            SKIPPED=$(jq '.statistic.skipped' $SUMMARY_FILE)
+            TOTAL=$(jq '.statistic.total' $SUMMARY_FILE)
+            echo "PASSED=$PASSED" >> $GITHUB_ENV
+            echo "FAILED=$FAILED" >> $GITHUB_ENV
+            echo "SKIPPED=$SKIPPED" >> $GITHUB_ENV
+            echo "TOTAL=$TOTAL" >> $GITHUB_ENV
+          fi
 
       - name: Send Telegram notification
         uses: appleboy/telegram-action@v1.0.1
@@ -56,33 +119,4 @@ jobs:
             🔗 [Посмотреть логи](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
           format: markdown
 
-      - name: Check allure-results
-        run: |
-          if [ -d "allure-results" ]; then
-          echo "✅ Папка allure-results найдена"
-          ls -la allure-results/
-          else
-          echo "❌ Папка allure-results не найдена!"
-          ls -la
-          exit 1
-          fi
-
-      - name: Test Docker
-        run: docker run --rm hello-world
-
-      - name: Send results to Allure TestOps
-        if: success() || failure()
-        run: |
-          docker run --rm \
-          -e ALLURE_URL="${{ secrets.ALLURE_TESTOPS_URL }}" \
-          -e ALLURE_PROJECT_ID="${{ secrets.ALLURE_TESTOPS_PROJECT_ID }}" \
-          -e ALLURE_API_KEY="${{ secrets.ALLURE_TESTOPS_API_KEY }}" \
-          -v $(pwd)/allure-results:/app/allure-results \
-          qameta/allure-github-action:2.1.0 \
-          send \
-          --launch-name "CI Run ${{ github.run_number }}" \
-          --build-order ${{ github.run_number }} \
-          --insecure
-
-
-
+     
