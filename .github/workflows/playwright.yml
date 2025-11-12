@@ -101,7 +101,7 @@ jobs:
         run: |
           allurectl upload allure-results \
             --endpoint https://allure.autotests.cloud \
-            --project-id 4993 \
+            --project-id 4996 \
             --token ${{ secrets.ALLURE_TOKEN }} \
             --launch-name "CI Run #${{ github.run_number }}"
 
