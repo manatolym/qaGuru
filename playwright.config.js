@@ -1,5 +1,8 @@
+require('dotenv').config();
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+
+
 
 /**
  * Read environment variables from file.
@@ -32,6 +35,8 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'on-first-retry',
+    baseURL: process.env.BASE_URL,
+    headless: true,
   },
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
