@@ -2,7 +2,7 @@ name: Publish Allure Report
 
 on:
   workflow_run:
-    workflow: Run tests
+    workflow: pw tests
     types:
       - completed
 
