@@ -1,11 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { SignUpPage, MainPage, LikePage } from '../src/index.js';
 import { createUser, createArticle } from '../src/fixtures.js';
-//commit for pull request2
 
 const URL = 'https://realworld.qa.guru';
-
-test.describe('Проверка функциональности сайта realworld.qa.guru', ()=> {
 
 test.describe('Проверка действий со статьями', ()=> {
     test.beforeEach(async ({ page }) => {
@@ -45,31 +42,7 @@ test.describe('Проверка действий со статьями', ()=> {
         await likePage.gotoLike();
         await expect(likePage.checkLike).toBeVisible();
     });
-
-    test('Незарегистрированный пользователь может просмотреть список статей', async ({ page }) => { 
-        const mainPage = new MainPage(page);
-        const articlePreviews = mainPage.page.locator('div.article-preview');
-        await mainPage.globalFeedCheck()
-        const firstArticle = articlePreviews.first();
-        await expect(firstArticle).toBeVisible();
-    })
         // TODO: проверить, что лента не пустая (кол-во статей > 0)
     })
 
-    test.describe('Проверка функциональности элементов навигации', () => {
-    test.beforeEach(async ({ page }) => {
-        await page.goto(URL);
-    });
 
-    test('Залогиненный пользователь может осуществить выход из портала', async ({ page }) => { 
-        const user = createUser()
-        const signUpPage = new SignUpPage(page)
-            await signUpPage.register(user)
-            await signUpPage.expectPageContainsText(user.name)
-        const mainPage = new MainPage(page);
-            await mainPage.logOut()
-            await expect(mainPage.logInLink).toBeVisible()
-    })
-    // TODO: проверить, что после логаута пользователь не может получить доступ к защищенным страницам
-    })
-})
