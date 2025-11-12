@@ -55,23 +55,11 @@ jobs:
         run: sudo apt-get install -y jq
 
       - name: Install allurectl
-  run: |
-    echo "🔽 Скачиваем allurectl v2.16.0..."
-    wget https://github.com/allure-framework/allurectl/releases/download/v2.16.0/allurectl-linux-amd64.tar.gz \
-      || { echo "❌ Скачивание не удалось"; exit 1; }
-
-    echo "📦 Распаковываем..."
-    tar -xzf allurectl-linux-amd64.tar.gz \
-      || { echo "❌ Ошибка распаковки"; exit 1; }
-
-    echo "✅ Устанавливаем в /usr/local/bin"
-    sudo mv allurectl /usr/local/bin/ \
-      && chmod +x /usr/local/bin/allurectl
-
-    echo "🧪 Проверяем установку:"
-    allurectl --version
-
-
+        run: |
+          wget https://github.com/allure-framework/allurectl/releases/download/v2.16.0/allurectl-linux-amd64.tar.gz
+        tar -xzf allurectl-linux-amd64.tar.gz
+        sudo mv allurectl /usr/local/bin/
+        allurectl --version
 
       - name: Upload results to Allure TestOps
         if: success() || failure()
