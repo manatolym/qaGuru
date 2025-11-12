@@ -2,11 +2,9 @@ import { test, expect } from '@playwright/test';
 import { SignUpPage, MainPage, LikePage } from '../src/index.js';
 import { createUser, createArticle } from '../src/fixtures.js';
 
-const URL = 'https://realworld.qa.guru';
-
 test.describe('Проверка действий со статьями', ()=> {
     test.beforeEach(async ({ page }) => {
-        await page.goto(URL)
+        await page.goto('/')
     })
 
     test('Авторизованный пользователь может создать статью', async ({ page }) => {
@@ -45,7 +43,7 @@ test.describe('Проверка действий со статьями', ()=> {
         await signUpPage.goToRegister();
         await signUpPage.register(user);
         await likePage.gotoLike();
-        
+
         await expect(likePage.checkLike).toBeVisible();
     });
         // TODO: проверить, что лента не пустая (кол-во статей > 0)

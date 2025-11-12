@@ -1,12 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { SignUpPage, MainPage } from '../src/index.js';
 import { createUser } from '../src/fixtures.js';
-    
-const URL = 'https://realworld.qa.guru';
 
     test.describe('Проверка функциональности элементов навигации', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto(URL);
+        await page.goto('/');
     });
 
     test('Залогиненный пользователь может осуществить выход из портала', async ({ page }) => { 
@@ -17,7 +15,7 @@ const URL = 'https://realworld.qa.guru';
         const mainPage = new MainPage(page);
 
             await mainPage.logOut()
-            
+
             await expect(mainPage.logInLink).toBeVisible()
     }) 
     })

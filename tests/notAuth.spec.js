@@ -1,12 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { MainPage } from '../src/index.js';
 
-
-const URL = 'https://realworld.qa.guru';
-
     test.describe('Проверка функциональности сайта без аутентификации и авторизации', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto(URL);
+        await page.goto('/');
     });
 
     test('Незарегистрированный пользователь может просмотреть список статей', async ({ page }) => { 
@@ -14,7 +11,7 @@ const URL = 'https://realworld.qa.guru';
         const articlePreviews = mainPage.page.locator('div.article-preview');
         await mainPage.globalFeedCheck()
         const firstArticle = articlePreviews.first();
-        
+
         await expect(firstArticle).toBeVisible();
     })
     })
