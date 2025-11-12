@@ -75,7 +75,7 @@ Pull Request в main/master
 Логи выполнения
 
 ### 🔧 Allure TestOps
-[Ссылка на проект](https://allure.autotests.cloud/launch/49494)
+[Ссылка на проект](https://allure.autotests.cloud/project/4996)
 <img width="1280" height="526" alt="image" src="https://github.com/user-attachments/assets/75787a71-8e16-49f6-bdde-f27d2d4d930c" />
 
 
