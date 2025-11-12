@@ -15,7 +15,9 @@ const URL = 'https://realworld.qa.guru';
             await signUpPage.register(user)
             await signUpPage.expectPageContainsText(user.name)
         const mainPage = new MainPage(page);
+
             await mainPage.logOut()
+            
             await expect(mainPage.logInLink).toBeVisible()
     }) 
     })

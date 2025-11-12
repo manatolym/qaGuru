@@ -8,7 +8,6 @@ test.describe("API challenge", () => {
     let response = await request.post(`${URL}challenger`);
     let headers = await response.headers();
     token = headers["x-challenger"];
-    console.log('Токен:'+ token);
     expect(headers).toEqual(
       expect.objectContaining({ "x-challenger": expect.any(String) }),
     );

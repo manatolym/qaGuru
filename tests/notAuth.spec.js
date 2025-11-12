@@ -14,6 +14,7 @@ const URL = 'https://realworld.qa.guru';
         const articlePreviews = mainPage.page.locator('div.article-preview');
         await mainPage.globalFeedCheck()
         const firstArticle = articlePreviews.first();
+        
         await expect(firstArticle).toBeVisible();
     })
     })
