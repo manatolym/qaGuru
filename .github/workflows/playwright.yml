@@ -69,9 +69,11 @@ jobs:
         if: success() || failure()
         run: |
           allurectl upload allure-results \
-            --url ${{ secrets.ALLURE_TESTOPS_URL }} \
+            --endpoint ${{ secrets.ALLURE_TESTOPS_URL }} \
             --project-id ${{ secrets.ALLURE_TESTOPS_PROJECT_ID }} \
-            --api-key ${{ secrets.ALLURE_TESTOPS_API_KEY }}
+            --token ${{ secrets.ALLURE_TESTOPS_API_KEY }} \
+            --insecure
+
 
       - name: Сгенерировать Allure отчёт
         uses: simple-elf/allure-report-action@master
