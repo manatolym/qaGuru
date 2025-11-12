@@ -7,12 +7,19 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   e2eTests:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -88,6 +95,18 @@ jobs:
           echo "FAILED=$FAILED" >> $GITHUB_ENV
           echo "SKIPPED=$SKIPPED" >> $GITHUB_ENV
           echo "TOTAL=$TOTAL" >> $GITHUB_ENV
+
+      - name: Check Allure Report
+        run: |
+          if [ -d "allure-report" ]; then
+            echo "✅ allure-report found"
+            ls -la allure-report/
+          else
+            echo "❌ allure-report not generated!"
+            ls -la
+            exit 1
+          fi
+
 
       - name: Deploy Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
