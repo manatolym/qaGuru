@@ -1,8 +1,10 @@
+const { defineConfig } = require('@playwright/test');require('dotenv').config();
 require('dotenv').config();
-// @ts-check
-import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv';
-dotenv.config();
+//import { defineConfig, devices } from '@playwright/test';
+//import dotenv from 'dotenv';
+//dotenv.config();
+console.log('🔍 process.env.BASE_URL:', process.env.BASE_URL);
+import { devices } from '@playwright/test';
 
 
 
