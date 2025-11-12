@@ -57,9 +57,9 @@ jobs:
       - name: Install allurectl
         run: |
           wget https://github.com/allure-framework/allurectl/releases/download/v2.16.0/allurectl-linux-amd64.tar.gz
-        tar -xzf allurectl-linux-amd64.tar.gz
-        sudo mv allurectl /usr/local/bin/
-        allurectl --version
+          tar -xzf allurectl-linux-amd64.tar.gz
+          sudo mv allurectl /usr/local/bin/
+          allurectl --version
 
       - name: Upload results to Allure TestOps
         if: success() || failure()
