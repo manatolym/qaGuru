@@ -61,7 +61,7 @@ Pull Request в main/master
 ## Отчетность
 
 ### 📊 Allure Report
-[Ссылка на отчёт](sha256:20569cba671164cb0ca64fde23dea539ebee01ad9dd7a391af062f74c6971a3c)
+[Ссылка на отчёт](https://manatolym.github.io/qaGuru/allure-report)
 <img width="1731" height="946" alt="image" src="https://github.com/user-attachments/assets/b6e13a6e-7d6e-43cb-a397-55beffc3f8fc" />
 
 **Включает:**
