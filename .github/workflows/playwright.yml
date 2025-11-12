@@ -1,90 +1,60 @@
-# Название workflow — профессионально и нейтрально
-name: Playwright CI Pipeline
+name: pw tests
 
-# Запускаем при:
-# - push в ветки main/master
-# - pull request в эти ветки
-# - ручном запуске через интерфейс
 on:
   push:
-    branches: [main, master]
+    branches: [ main, master ]
   pull_request:
-    branches: [main, master]
+    branches: [ main, master ]
   workflow_dispatch:
 
-# Основной процесс: запуск тестов и отчётность
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
-  ci-tests:
-    name: 🧪 Run & Report
+  e2eTests:
     timeout-minutes: 30
     runs-on: ubuntu-latest
-
     steps:
-      # 🔁 1. Получаем код из репозитория
-      - name: 🔎 Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # ⚙️ 2. Устанавливаем Node.js и кэшируем зависимости
-      - name: 📦 Setup Node.js & Cache
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: npm
 
-      # 📥 3. Устанавливаем зависимости
-      - name: 📥 Install dependencies
-        run: npm ci
+      - name: Установить пакеты
+        run: npm i
 
-      # 🕹️ 4. Устанавливаем Playwright и браузеры
-      - name: 🌐 Install Playwright
+      - name: Установить PW
         run: npx playwright install --with-deps
 
-      # ▶️ 5. Запуск всех тестов
-      - name: ▶️ Execute tests
+      - name: Запустить PW
+        id: playwright
         run: npm run test
 
-      # 📁 6. Сохраняем артефакты (всегда)
-      - name: 📁 Upload artifacts
+      - name: Сохранить результаты Playwright
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results
-          path: |
-            test-results
-            allure-results
+          path: test-results/
           retention-days: 20
 
-      # 📈 7. Подготавливаем историю для Allure
-      - name: 🗃️ Fetch previous reports
-        uses: actions/checkout@v4
+      - name: Сохранить результаты Allure
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          ref: gh-pages
-          path: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
+          name: allure-results
+          path: allure-results/
+          retention-days: 20
 
-      # 📊 8. Генерируем HTML-отчёт
-      - name: 📊 Generate Allure Report
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        with:
-          allure_results: allure-results
-          gh_pages: gh-pages
-          allure_report: allure-report
-          allure_history: allure-history
-          keep_reports: 20
+      - name: Установить jq
+        run: sudo apt-get install -y jq
 
-      # 🌐 9. Публикуем отчёт на GitHub Pages
-      - name: 🌐 Deploy Allure Report
-        uses: peaceiris/actions-gh-pages@v4
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-
-      # 📦 10. Устанавливаем allurectl с кэшированием
-      - name: 📦 Setup allurectl
+      - name: Setup allurectl
         if: always()
         run: |
           # Кэшируем allurectl
@@ -95,28 +65,62 @@ jobs:
             sudo mv allurectl /usr/local/bin/
           fi
 
-      # ☁️ 11. Загружаем результаты в Allure TestOps
-      - name: ☁️ Upload to Allure TestOps
-        if: always()
+      - name: Upload results to Allure TestOps
+        if: success() || failure()
         run: |
           allurectl upload allure-results \
-            --endpoint https://allure.autotests.cloud \
-            --project-id 4993 \
-            --token ${{ secrets.ALLURE_TOKEN }} \
-            --launch-name "CI Run #${{ github.run_number }}"
+            --url ${{ secrets.ALLURE_TESTOPS_URL }} \
+            --project-id ${{ secrets.ALLURE_TESTOPS_PROJECT_ID }} \
+            --api-key ${{ secrets.ALLURE_TESTOPS_API_KEY }}
 
-      # 📋 12. Извлекаем статистику из отчёта
-      - name: 📋 Parse test summary
+      - name: Сгенерировать Allure отчёт
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Parse Allure summary
         id: parse_summary
         if: always()
         run: |
-          file="allure-report/widgets/summary.json"
-          if [ -f "$file" ]; then
-            echo "PASSED=$(jq -r '.statistic.passed' $file)" >> $GITHUB_ENV
-            echo "FAILED=$(jq -r '.statistic.failed' $file)" >> $GITHUB_ENV
-            echo "SKIPPED=$(jq -r '.statistic.skipped' $file)" >> $GITHUB_ENV
-            echo "TOTAL=$(jq -r '.statistic.total' $file)" >> $GITHUB_ENV
+          SUMMARY_FILE="allure-report/widgets/summary.json"
+          if [ -f "$SUMMARY_FILE" ]; then
+            PASSED=$(jq '.statistic.passed' $SUMMARY_FILE)
+            FAILED=$(jq '.statistic.failed' $SUMMARY_FILE)
+            SKIPPED=$(jq '.statistic.skipped' $SUMMARY_FILE)
+            TOTAL=$(jq '.statistic.total' $SUMMARY_FILE)
+          else
+            PASSED=0; FAILED=0; SKIPPED=0; TOTAL=0
           fi
+          echo "PASSED=$PASSED" >> $GITHUB_ENV
+          echo "FAILED=$FAILED" >> $GITHUB_ENV
+          echo "SKIPPED=$SKIPPED" >> $GITHUB_ENV
+          echo "TOTAL=$TOTAL" >> $GITHUB_ENV
+
+      - name: Check Allure Report
+        run: |
+          if [ -d "allure-report" ]; then
+            echo "✅ allure-report found"
+            ls -la allure-report/
+          else
+            echo "❌ allure-report not generated!"
+            ls -la
+            exit 1
+          fi
+
+
+      - name: Deploy Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          publish_branch: gh-pages
+          commit_message: ${{ github.event_name }}-${{ github.run_id }}
 
       - name: Send Telegram notification
         uses: appleboy/telegram-action@v1.0.1
