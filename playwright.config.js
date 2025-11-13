@@ -3,7 +3,6 @@ require('dotenv').config();
 //import { defineConfig, devices } from '@playwright/test';
 //import dotenv from 'dotenv';
 //dotenv.config();
-console.log('🔍 process.env.BASE_URL:', process.env.BASE_URL);
 import { devices } from '@playwright/test';
 
 
@@ -40,6 +39,7 @@ export default defineConfig({
     video: 'retain-on-failure',
     trace: 'on-first-retry',
     baseURL: process.env.BASE_URL,
+    apiURL: process.env.API_URL,
     headless: true,
   },
 

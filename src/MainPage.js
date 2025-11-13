@@ -18,6 +18,7 @@ export class MainPage {
         this.updateArticleButton = page.getByRole('button', { name: ' Update Article' })
         this.logInLink = page.getByRole('link', { name: 'Login' })
         this.checkArticle = page.getByRole('main');
+        this.articleTitleLocator = page.locator('.container h1');
 
     }
     
@@ -39,10 +40,11 @@ export class MainPage {
     // TODO: добавить проверку успешной публикации статьи
 
     // Редактирование статьи с фиксированным новым заголовком
-        async editArticle() {
+        async editArticle(articleData) {
+        const { articleTitle } = articleData
         await this.editLink.click();
         await this.articleNameInput.click();
-        await this.articleNameInput.fill('New Article Title');
+        await this.articleNameInput.fill(articleTitle);
         await this.updateArticleButton.click();
         //await expect(this.page.locator('body')).toContainText('New Article Title');
     }

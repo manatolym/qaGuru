@@ -1,17 +1,18 @@
-import { test, expect } from '@playwright/test';
-import { MainPage } from '../src/index.js';
+import { test, expect } from '../src/fixtures.js'
+
 
     test.describe('Проверка функциональности сайта без аутентификации и авторизации', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/');
     });
 
-    test('Незарегистрированный пользователь может просмотреть список статей', async ({ page }) => { 
-        const mainPage = new MainPage(page);
-        const articlePreviews = mainPage.page.locator('div.article-preview');
-        await mainPage.globalFeedCheck()
+    test('Незарегистрированный пользователь может просмотреть список статей', async ({ app }) => { 
+        //arrange
+        const articlePreviews = app.mainPage.page.locator('div.article-preview');
+        //act
+        await app.mainPage.globalFeedCheck()
         const firstArticle = articlePreviews.first();
-
+        //assert
         await expect(firstArticle).toBeVisible();
     })
     })

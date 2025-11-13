@@ -1,5 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { SignUpPage, MainPage } from '../src/index.js';
+import { test, expect } from '../src/fixtures.js'
 import { createUser } from '../src/fixtures.js';
 
     test.describe('Проверка функциональности элементов навигации', () => {
@@ -7,16 +6,15 @@ import { createUser } from '../src/fixtures.js';
         await page.goto('/');
     });
 
-    test('Залогиненный пользователь может осуществить выход из портала', async ({ page }) => { 
+    test('Залогиненный пользователь может осуществить выход из портала', async ({ app }) => { 
+        //arrange
         const user = createUser()
-        const signUpPage = new SignUpPage(page)
-            await signUpPage.register(user)
-            await signUpPage.expectPageContainsText(user.name)
-        const mainPage = new MainPage(page);
-
-            await mainPage.logOut()
-
-            await expect(mainPage.logInLink).toBeVisible()
+        //act
+        await app.signUpPage.register(user)
+        await app.signUpPage.expectPageContainsText(user.name)
+        await app.mainPage.logOut()
+        //assert
+        await expect(app.mainPage.logInLink).toBeVisible()
     }) 
     })
         // TODO: проверить, что после логаута пользователь не может получить доступ к защищенным страницам

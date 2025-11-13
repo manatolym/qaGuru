@@ -1,4 +1,6 @@
 import { faker } from '@faker-js/faker';
+import { test as base } from '@playwright/test';
+import { MainPage, SignUpPage, LikePage } from './index.js';
 
 export function createUser() {
   return {
@@ -16,3 +18,16 @@ export function createArticle() {
     tag: faker.lorem.word()
   };
 }
+
+export const test = base.extend({
+ app: async ({ page }, use) => {
+ const app = {
+ mainPage: new MainPage(page),
+ signUpPage: new SignUpPage(page),
+ likePage: new LikePage(page),
+ };
+ await use(app);
+ }
+})
+
+export { expect } from '@playwright/test';
