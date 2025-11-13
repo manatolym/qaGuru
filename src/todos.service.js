@@ -1,5 +1,3 @@
-import axios from "axios";
-
 let URL = 'https://apichallenges.herokuapp.com/';
 
 export class TodosService {
