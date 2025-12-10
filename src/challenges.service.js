@@ -1,11 +1,19 @@
-let URL = 'https://apichallenges.herokuapp.com/';
-
 export class ChallengesService {
-    constructor (options){
-        this.options = options;
+  constructor(request, baseURL) {
+    this.request = request;
+    this.baseURL = baseURL;
+  }
+  async get(headers) {
+    const response = await this.request.get(
+      `${this.baseURL}/challenges`,
+      { headers }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `API request failed: ${response.status()} ${response.statusText}`
+      );
     }
-    async get(headers){
-        const response = await axios.get(`${URL}challenges`, {headers: headers});
-        return response;
-    }
+    return response;
+  }
 }

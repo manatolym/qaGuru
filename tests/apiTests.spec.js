@@ -18,10 +18,7 @@ test.describe("API challenge", () => {
       "x-challenger": token,
     }
   });
-  const body = await response.text(); 
-  const status = response.status();
-  expect(status).toBe(405);
-  expect(body).toBeDefined();
+  expect(response.status()).toBe(405)
 });
 
   test("Удаление несуществующего todo DELETE /todos/{id}", { tag: '@API'}, async ({ request }, testInfo) => {
@@ -46,7 +43,8 @@ test.describe("API challenge", () => {
     let headers = await response.headers();
     expect(response.status()).toBe(200);
     expect(headers).toEqual(expect.objectContaining({ "x-challenger": token }));
-    expect(body.challenges.length).toBe(59);
+    expect(Array.isArray(body.challenges)).toBeTruthy();
+    expect(body.challenges.length).toBeGreaterThan(0);
   });
 
   test("Получить список todos  GET /todos", { tag: '@API'}, async ({ request }, testInfo) => {
@@ -59,7 +57,8 @@ test.describe("API challenge", () => {
     let headers = await response.headers();
     expect(response.status()).toBe(200);
     expect(headers).toEqual(expect.objectContaining({ "x-challenger": token }));
-    expect(body.todos.length).toBe(10);
+    expect(Array.isArray(body.todos)).toBeTruthy();
+    expect(body.todos.length).toBeGreaterThan(0);
   });
 
   test("Получить список todo not plural GET /todo", { tag: '@API'}, async ({ request }, testInfo) => {

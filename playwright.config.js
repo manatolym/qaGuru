@@ -1,19 +1,14 @@
-const { defineConfig } = require('@playwright/test');require('dotenv').config();
-require('dotenv').config();
-//import { defineConfig, devices } from '@playwright/test';
-//import dotenv from 'dotenv';
-//dotenv.config();
+import { defineConfig } from '@playwright/test';
 import { devices } from '@playwright/test';
+import dotenv from 'dotenv';
 
-
+// Инициализируем dotenv
+dotenv.config();
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -91,4 +86,3 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
-

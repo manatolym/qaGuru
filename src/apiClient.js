@@ -3,7 +3,7 @@ import { ChallengerService, ChallengesService, TodosService } from './index';
 export class ApiClient {
     constructor (options) {
         const defaultOptions = {
-            URL: "https://apichallenges.herokuapp.com/",
+            URL: process.env.API_URL,
         }
         const mergeOptions = {
             ...defaultOptions,
